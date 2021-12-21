@@ -1,20 +1,14 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
-import Post from './Post.js'
+import router from './router.js'
 
 dotenv.config()
 
 const app = express()
 
 app.use(express.json())
-
-app.post('/', async (req, res) => {
-    const { author, title, content, image } = req.body
-    const post = await Post.create({ author, title, content, image })
-
-    res.status(200).json('Post created')
-})
+app.use('/api', router)
 
 async function startApp() {
     try {
