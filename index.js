@@ -1,6 +1,7 @@
 import dotenv from 'dotenv'
 import express from 'express'
 import mongoose from 'mongoose'
+import Post from './Post.js'
 
 dotenv.config()
 
@@ -8,9 +9,11 @@ const app = express()
 
 app.use(express.json())
 
-app.post('/', (req, res) => {
-    console.log(req.body)
-    res.status(200).json('Server at work')
+app.post('/', async (req, res) => {
+    const { author, title, content, image } = req.body
+    const post = await Post.create({ author, title, content, image })
+
+    res.status(200).json('Post created')
 })
 
 async function startApp() {
