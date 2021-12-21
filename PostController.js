@@ -38,9 +38,17 @@ class PostController {
         }
     }
 
-    async updateById(req, res) {
+    async update(req, res) {
         try {
+            const post = req.body
 
+            if (!post._id) {
+                return res.status(400).json({ message: 'No ID specified' })
+            }
+
+            const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true })
+
+            return res.json(updatedPost)
         } catch (error) {
             res.status(500).json(error)
         }
