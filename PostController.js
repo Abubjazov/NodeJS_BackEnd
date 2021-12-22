@@ -1,14 +1,13 @@
-import Post from "./Post.js"
 import PostService from "./PostService.js"
 
 class PostController {
     async create(req, res) {
         try {
-            const post = await PostService.create(req.body)
+            const post = await PostService.create(req.body, req.files.image)
 
             res.json(post)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error.message)
         }
     }
 
@@ -18,7 +17,7 @@ class PostController {
 
             return res.json(posts)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error.message)
         }
     }
 
@@ -28,7 +27,7 @@ class PostController {
 
             return res.json(post)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error.message)
         }
     }
 
@@ -38,7 +37,7 @@ class PostController {
 
             return res.json(updatedPost)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error.message)
         }
     }
 
@@ -48,7 +47,7 @@ class PostController {
 
             return res.json(post)
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json(error.message)
         }
     }
 
