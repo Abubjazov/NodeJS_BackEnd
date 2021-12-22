@@ -1,10 +1,10 @@
 import Post from "./Post.js"
+import PostService from "./PostService.js"
 
 class PostController {
     async create(req, res) {
         try {
-            const { author, title, content, image } = req.body
-            const post = await Post.create({ author, title, content, image })
+            const post = await PostService.create(req.body)
 
             res.json(post)
         } catch (error) {
@@ -14,7 +14,7 @@ class PostController {
 
     async getAll(req, res) {
         try {
-            const posts = await Post.find()
+            const posts = await PostService.getAll()
 
             return res.json(posts)
         } catch (error) {
@@ -24,13 +24,7 @@ class PostController {
 
     async getById(req, res) {
         try {
-            const { id } = req.params
-
-            if (!id) {
-                return res.status(400).json({ message: 'No ID specified' })
-            }
-
-            const post = await Post.findById(id)
+            const post = await PostService.getById(req.params.id)
 
             return res.json(post)
         } catch (error) {
@@ -40,13 +34,7 @@ class PostController {
 
     async update(req, res) {
         try {
-            const post = req.body
-
-            if (!post._id) {
-                return res.status(400).json({ message: 'No ID specified' })
-            }
-
-            const updatedPost = await Post.findByIdAndUpdate(post._id, post, { new: true })
+            const updatedPost = await PostService.update(req.body)
 
             return res.json(updatedPost)
         } catch (error) {
@@ -56,13 +44,7 @@ class PostController {
 
     async deleteById(req, res) {
         try {
-            const { id } = req.params
-
-            if (!id) {
-                return res.status(400).json({ message: 'No ID specified' })
-            }
-
-            const post = await Post.findByIdAndDelete(id)
+            const post = await PostService.deleteById(req.params.id)
 
             return res.json(post)
         } catch (error) {
